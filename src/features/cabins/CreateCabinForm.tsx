@@ -9,7 +9,15 @@ import FormRow from '../../ui/FormRow';
 import useCreateCabin from './useCreateCabin';
 import useEditCabin from './useEditCabin';
 
-function CreateEditCabinForm({ closeModal, cabinToEdit = {} }) {
+type CreateEditCabinFormProps = {
+  closeModal?: () => void;
+  cabinToEdit?: any;
+};
+
+function CreateEditCabinForm({
+  closeModal,
+  cabinToEdit = {},
+}: CreateEditCabinFormProps) {
   const { createCabin, isCreating } = useCreateCabin();
   const { editCabin, isEditing } = useEditCabin();
   const isWorking = isCreating || isEditing;

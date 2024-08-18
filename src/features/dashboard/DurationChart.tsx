@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-import Heading from '../../ui/Heading';
 import {
   Cell,
   Legend,
@@ -8,7 +7,10 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
+
+import Heading from '../../ui/Heading';
 import useTheme from '../../hooks/useTheme';
+import { ConfirmedStay, Stay } from './types';
 
 const ChartBox = styled.div`
   /* Box */
@@ -69,7 +71,7 @@ const startDataLight = [
     value: 0,
     color: '#a855f7',
   },
-];
+] as const;
 
 const startDataDark = [
   {
@@ -112,18 +114,28 @@ const startDataDark = [
     value: 0,
     color: '#7e22ce',
   },
-];
-function prepareData(startData, stays) {
+] as const;
+
+function getStartData(isDarkMode: boolean) {
+  return isDarkMode ? startDataDark : startDataLight;
+}
+
+function prepareData(
+  startData: typeof startDataLight | typeof startDataDark,
+  stays: Array<ConfirmedStay>
+) {
   // A bit ugly code, but sometimes this is what it takes when working with real data 😅
 
-  function incArrayValue(arr, field) {
+  function incArrayValue(arr: ReadonlyArray<Stay>, field: string) {
     return arr.map((obj) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
     );
   }
 
+  console.log('stays', stays);
+
   const data = stays
-    .reduce((arr, cur) => {
+    .reduce((arr: ReadonlyArray<Stay>, cur: ConfirmedStay) => {
       const num = cur.numOfNights;
       if (num === 1) return incArrayValue(arr, '1 night');
       if (num === 2) return incArrayValue(arr, '2 nights');
@@ -140,9 +152,13 @@ function prepareData(startData, stays) {
   return data;
 }
 
-function DurationChart({ confirmedStays }) {
+function DurationChart({
+  confirmedStays,
+}: {
+  confirmedStays: Array<ConfirmedStay>;
+}) {
   const { isDarkMode } = useTheme();
-  const startData = isDarkMode ? startDataDark : startDataLight;
+  const startData = getStartData(isDarkMode);
   const data = prepareData(startData, confirmedStays);
 
   return (
@@ -172,7 +188,7 @@ function DurationChart({ confirmedStays }) {
           <Legend
             verticalAlign="middle"
             align="right"
-            width="30%"
+            width={30}
             layout="vertical"
             iconSize={15}
             iconType="circle"

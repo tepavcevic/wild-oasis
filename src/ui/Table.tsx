@@ -10,7 +10,11 @@ const StyledTable = styled.div`
   overflow: hidden;
 `;
 
-const CommonRow = styled.div<{ columns: string }>`
+type CommonRowProps = {
+  columns: string;
+};
+
+const CommonRow = styled.div<CommonRowProps>`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   column-gap: 2.4rem;

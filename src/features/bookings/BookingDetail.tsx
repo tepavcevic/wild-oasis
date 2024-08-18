@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { useNavigate } from '@remix-run/react';
 
 import { useMoveBack } from '../../hooks/useMoveBack';
@@ -16,6 +16,7 @@ import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import useDeleteBooking from './useDeleteBooking';
 import Empty from '../../ui/Empty';
+import { Booking } from './types';
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
-  const { status, id: bookingId } = booking || {};
+  const { status, id: bookingId } = (booking || {}) as Booking;
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
@@ -34,13 +35,13 @@ function BookingDetail() {
 
   if (isLoading) return <Spinner />;
 
-  if (!booking?.bookingId) return <Empty resource="booking" />;
+  if (!booking?.id) return <Empty resource="booking" />;
 
   const statusToTagName = {
     unconfirmed: 'blue',
     'checked-in': 'green',
     'checked-out': 'silver',
-  };
+  } as const;
 
   return (
     <>

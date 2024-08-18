@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 
 import { formatCurrency } from '../../utils/helpers';
@@ -9,6 +9,7 @@ import CreateEditCabinForm from './CreateCabinForm';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
+import { Cabin } from './types';
 
 const Img = styled.img`
   display: block;
@@ -37,7 +38,11 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-export default function CabinRow({ cabin }) {
+type CabinRowProps = {
+  cabin: Cabin;
+};
+
+export default function CabinRow({ cabin }: CabinRowProps) {
   const { id, name, maxCapacity, regularPrice, discount, image } = cabin;
 
   const { deleteCabin, isDeleting } = useDeleteCabin();
@@ -69,9 +74,9 @@ export default function CabinRow({ cabin }) {
       <div>
         <Modal>
           <Menus.Menu>
-            <Menus.Toggle id={cabin.id} />
+            <Menus.Toggle id={cabin.id.toString()} />
 
-            <Menus.List id={cabin.id}>
+            <Menus.List id={cabin.id.toString()}>
               <Menus.Button onClick={handleDuplicate} icon={<HiSquare2Stack />}>
                 Duplicate
               </Menus.Button>

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { subDays } from 'date-fns';
 import { useSearchParams } from '@remix-run/react';
+
 import { getStaysAfterDate } from '../../services/apiBookings';
 
 export default function useRecentStays() {

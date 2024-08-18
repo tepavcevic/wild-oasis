@@ -7,7 +7,7 @@ export default function AddCabin() {
     <div>
       <Modal>
         <Modal.Open opens="cabin-form">
-          <Button type="primary">Add cabin</Button>
+          <Button variation="primary">Add cabin</Button>
         </Modal.Open>
         <Modal.Window name="cabin-form">
           <CreateEditCabinForm />

@@ -19,7 +19,7 @@ const sizes = {
     padding: 1.2rem 2.4rem;
     font-weight: 500;
   `,
-};
+} as const;
 
 const variations = {
   primary: css`
@@ -47,7 +47,7 @@ const variations = {
       background-color: var(--color-red-800);
     }
   `,
-};
+} as const;
 
 export type ButtonProps = ComponentProps<'button'> & {
   size?: keyof typeof sizes;

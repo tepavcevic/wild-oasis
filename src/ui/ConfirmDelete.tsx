@@ -24,7 +24,7 @@ type ConfirmDeleteProps = {
   resourceName: string;
   onConfirm: () => void;
   disabled?: boolean;
-  closeModal: () => void;
+  closeModal?: () => void;
 };
 
 function ConfirmDelete({

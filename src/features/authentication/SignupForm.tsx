@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../ui/Button';
@@ -9,6 +10,13 @@ import SpinnerMini from '../../ui/SpinnerMini';
 
 // Email regex: /\S+@\S+\.\S+/
 
+type SignupFormData = {
+  fullName: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
+
 function SignupForm() {
   const {
     register,
@@ -16,11 +24,11 @@ function SignupForm() {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm();
+  } = useForm<SignupFormData>();
 
   const { signup, isLoading } = useSignup();
 
-  const onSubmit = ({ fullName, email, password }) => {
+  const onSubmit = ({ fullName, email, password }: SignupFormData) => {
     if (!fullName || !email || !password) return;
 
     signup(
@@ -89,13 +97,19 @@ function SignupForm() {
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset" onClick={reset}>
-          Cancel
-        </Button>
-        <Button disabled={isLoading}>
-          {!isLoading ? 'Create new user' : <SpinnerMini />}
-        </Button>
+        <>
+          {/* type is an HTML attribute! */}
+          <Button
+            variation="secondary"
+            type="reset"
+            onClick={reset as unknown as MouseEventHandler<HTMLButtonElement>}
+          >
+            Cancel
+          </Button>
+          <Button disabled={isLoading}>
+            {!isLoading ? 'Create new user' : <SpinnerMini />}
+          </Button>
+        </>
       </FormRow>
     </Form>
   );

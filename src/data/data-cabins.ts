@@ -2,7 +2,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
 const imageUrl = `${supabaseUrl}/storage/v1/object/public/cabin-images/`;
 
-export type Cabin = {
+type Cabin = {
   name: string;
   maxCapacity: number;
   regularPrice: number;

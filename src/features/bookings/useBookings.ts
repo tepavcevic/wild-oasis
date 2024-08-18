@@ -29,7 +29,7 @@ export default function useBookings() {
     queryFn: () => getBookings({ filter, sortBy, page }),
   });
 
-  const pageCount = Math.ceil(count / ROWS_PER_PAGE);
+  const pageCount = Math.ceil(count ? count / ROWS_PER_PAGE : 0);
   if (page < pageCount) {
     queryClient.prefetchQuery({
       queryKey: ['bookings', filter, sortBy, page + 1],

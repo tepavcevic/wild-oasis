@@ -10,8 +10,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import useTheme from '../../hooks/useTheme';
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
+
+import useTheme from '../../hooks/useTheme';
+import { ChartBooking as SalesChartBooking } from '../bookings/types';
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -23,7 +25,12 @@ const StyledSalesChart = styled(DashboardBox)`
   }
 `;
 
-export default function SalesChart({ bookings, numDays }) {
+type SalesChartProps = {
+  bookings: Array<SalesChartBooking>;
+  numDays: number;
+};
+
+export default function SalesChart({ bookings, numDays }: SalesChartProps) {
   const { isDarkMode } = useTheme();
 
   const allDates = eachDayOfInterval({

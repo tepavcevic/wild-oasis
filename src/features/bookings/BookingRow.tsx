@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { format, isToday } from 'date-fns';
 import {
   HiArrowDownOnSquare,
@@ -8,8 +8,7 @@ import {
 } from 'react-icons/hi2';
 import { useNavigate } from '@remix-run/react';
 
-import { formatCurrency } from '../../utils/helpers';
-import { formatDistanceFromNow } from '../../utils/helpers';
+import { formatDistanceFromNow, formatCurrency } from '../../utils/helpers';
 import useDeleteBooking from './useDeleteBooking';
 import useCheckout from '../check-in-out/useCheckout';
 import Tag from '../../ui/Tag';
@@ -17,6 +16,7 @@ import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
 import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
+import { Booking } from './types';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -45,25 +45,27 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
+type BookingRowProps = {
+  booking: Booking;
+};
+
 function BookingRow({
   booking: {
     id: bookingId,
-    created_at,
     startDate,
     endDate,
     numOfNights,
-    numOfGuests,
     totalPrice,
     status,
     guests: { fullName: guestName, email },
     cabins: { name: cabinName },
   },
-}) {
+}: BookingRowProps) {
   const statusToTagName = {
     unconfirmed: 'blue',
     'checked-in': 'green',
     'checked-out': 'silver',
-  };
+  } as const;
 
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
@@ -97,9 +99,9 @@ function BookingRow({
 
       <Modal>
         <Menus.Menu>
-          <Menus.Toggle id={bookingId} />
+          <Menus.Toggle id={bookingId.toString()} />
 
-          <Menus.List id={bookingId}>
+          <Menus.List id={bookingId.toString()}>
             <Menus.Button
               icon={<HiEye />}
               onClick={() => navigate(`/bookings/${bookingId}`)}

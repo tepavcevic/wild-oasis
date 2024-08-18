@@ -11,7 +11,8 @@ function BookingTable() {
 
   if (isLoading) return <Spinner />;
 
-  if (!bookings.length) return <Empty resource="bookings" />;
+  if (!bookings?.length || typeof bookings === 'undefined')
+    return <Empty resource="bookings" />;
 
   return (
     <Menus>

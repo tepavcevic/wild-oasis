@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 type TagProps = {
-  type: 'green' | 'blue' | 'red' | 'yellow' | 'indigo';
+  type: 'green' | 'blue' | 'silver';
 };
 
 const Tag = styled.span<TagProps>`

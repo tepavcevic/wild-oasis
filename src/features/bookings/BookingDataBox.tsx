@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { format, isToday } from 'date-fns';
 import {
   HiOutlineChatBubbleBottomCenterText,
@@ -11,6 +11,7 @@ import DataItem from '../../ui/DataItem';
 import { Flag } from '../../ui/Flag';
 
 import { formatDistanceFromNow, formatCurrency } from '../../utils/helpers';
+import { BookingForView } from './types';
 
 const StyledBookingDataBox = styled.section`
   /* Box */
@@ -68,7 +69,7 @@ const Guest = styled.div`
   }
 `;
 
-const Price = styled.div`
+const Price = styled.div<{ $isPaid: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -101,8 +102,12 @@ const Footer = styled.footer`
   text-align: right;
 `;
 
+type BookingDataBoxProps = {
+  booking: BookingForView;
+};
+
 // A purely presentational component
-function BookingDataBox({ booking }) {
+function BookingDataBox({ booking }: BookingDataBoxProps) {
   const {
     created_at,
     startDate,

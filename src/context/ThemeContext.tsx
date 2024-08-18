@@ -7,11 +7,9 @@ type ThemeContextType = {
   toggleTheme: () => void;
 };
 
-export const ThemeContext = createContext<ThemeContextType>({
-  isDarkMode: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  toggleTheme: () => {},
-});
+export const ThemeContext = createContext<ThemeContextType>(
+  {} as ThemeContextType
+);
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useLocalStorageState<boolean>(

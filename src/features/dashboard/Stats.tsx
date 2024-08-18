@@ -4,15 +4,25 @@ import {
   HiOutlineCalendarDays,
   HiOutlineChartBar,
 } from 'react-icons/hi2';
+
 import Stat from './Stat';
 import { formatCurrency } from '../../utils/helpers';
+import { Booking } from '../bookings/types';
+import { ConfirmedStay } from './types';
+
+type StatsProps = {
+  bookings: Array<Booking>;
+  confirmedStays: Array<ConfirmedStay>;
+  numDays: number;
+  cabinCount: number;
+};
 
 export default function Stats({
   bookings,
   confirmedStays,
   numDays,
   cabinCount,
-}) {
+}: StatsProps) {
   const numBookings = bookings.length;
   const sales = bookings.reduce((acc, curr) => acc + curr.totalPrice, 0);
   const checkins = confirmedStays.length;

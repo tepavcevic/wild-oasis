@@ -166,10 +166,11 @@ function List({ id, children }: ListProps) {
 type ButtonProps = {
   onClick?: () => void;
   icon: ReactElement;
+  disabled?: boolean;
   children: ReactNode;
 };
 
-function Button({ onClick, icon, children }: ButtonProps) {
+function Button({ onClick, icon, children, disabled = false }: ButtonProps) {
   const { close } = useContext(MenusContext);
 
   const handleClick = () => {
@@ -179,7 +180,7 @@ function Button({ onClick, icon, children }: ButtonProps) {
 
   return (
     <li>
-      <StyledButton onClick={handleClick}>
+      <StyledButton onClick={handleClick} disabled={disabled}>
         {icon}
         <span>{children}</span>
       </StyledButton>
