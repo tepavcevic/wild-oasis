@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from '@remix-run/react';
 
 import { getBookings } from '../../services/apiBookings';
 import { ROWS_PER_PAGE } from '../../constants';

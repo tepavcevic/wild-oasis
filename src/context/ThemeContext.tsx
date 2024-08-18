@@ -1,11 +1,20 @@
-import { createContext, useEffect } from 'react';
+import { createContext, useEffect, ReactNode } from 'react';
 
 import useLocalStorageState from '../hooks/useLocalStorageState';
 
-export const ThemeContext = createContext();
+type ThemeContextType = {
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+};
 
-export default function ThemeProvider({ children }) {
-  const [isDarkMode, setIsDarkMode] = useLocalStorageState(
+export const ThemeContext = createContext<ThemeContextType>({
+  isDarkMode: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  toggleTheme: () => {},
+});
+
+export default function ThemeProvider({ children }: { children: ReactNode }) {
+  const [isDarkMode, setIsDarkMode] = useLocalStorageState<boolean>(
     window.matchMedia('(prefers-color-scheme: dark').matches,
     'isDarkMode'
   );

@@ -1,9 +1,6 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Route, Routes } from '@remix-run/react';
 import { Toaster } from 'react-hot-toast';
 
-import Dashboard from './pages/Dashboard';
 import Bookings from './pages/Bookings';
 import Cabins from './pages/Cabins';
 import Users from './pages/Users';
@@ -11,39 +8,36 @@ import Settings from './pages/Settings';
 import Account from './pages/Account';
 import Login from './pages/Login';
 import PageNotFound from './pages/PageNotFound';
-import GlobalStyles from './styles/GlobalStyles';
 import AppLayout from './ui/AppLayout';
 import Booking from './pages/Booking';
 import Checkin from './pages/Checkin';
 import ProtectedRoutes from './ui/ProtectedRoutes';
+import Dashboard from './pages/Dashboard';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ThemeProvider from './context/ThemeContext';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // staleTime: 60 * 1000,
-      staleTime: 1000,
-    },
-  },
-});
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import GlobalStyles from './styles/GlobalStyles';
 
 function App() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { staleTime: 1000 } },
+  });
+
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <GlobalStyles />
-        <BrowserRouter>
-          <Routes>
-            <Route
-              element={
-                <ProtectedRoutes>
-                  <AppLayout />
-                </ProtectedRoutes>
-              }
-            >
-              <Route index element={<Navigate replace to="dashboard" />} />
-              <Route path="dashboard" element={<Dashboard />} />
+        <Routes>
+          <Route
+            element={
+              <ProtectedRoutes>
+                <AppLayout />
+              </ProtectedRoutes>
+            }
+          >
+            <Route path="dashboard" element={<Dashboard />} />
+            {/*
               <Route path="bookings" element={<Bookings />} />
               <Route path="bookings/:bookingId" element={<Booking />} />
               <Route path="checkin/:bookingId" element={<Checkin />} />
@@ -51,15 +45,15 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />
               <Route path="account" element={<Account />} />
-            </Route>
-            <Route path="login" element={<Login />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </BrowserRouter>
+        */}
+          </Route>
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
 
         <Toaster
           position="top-center"
-          gutter="12"
+          gutter={12}
           containerStyle={{ margin: 8 }}
           toastOptions={{
             success: {

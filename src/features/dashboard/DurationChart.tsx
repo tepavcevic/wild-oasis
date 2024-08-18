@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import Heading from '../../ui/Heading';
 import {
   Cell,

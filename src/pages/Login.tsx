@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 
 import LoginForm from '../features/authentication/LoginForm';
 import Logo from '../ui/Logo';
@@ -18,7 +18,7 @@ function Login() {
   return (
     <LoginLayout>
       <Logo />
-      <Heading as="h4">Login to tour account</Heading>
+      <Heading as="h4">Login to to your account</Heading>
       <LoginForm />
     </LoginLayout>
   );

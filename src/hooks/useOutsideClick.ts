@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react';
 
-export default function useOutsideClick(handler, listenCapturing = true) {
-  const ref = useRef();
+export default function useOutsideClick<T extends HTMLElement>(
+  handler: () => void,
+  listenCapturing = true
+) {
+  const ref = useRef<T>();
 
   useEffect(() => {
-    const handleClick = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
+    const handleClick = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as T)) {
         handler();
       }
     };

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@remix-run/react';
 
 export function useMoveBack() {
   const navigate = useNavigate();

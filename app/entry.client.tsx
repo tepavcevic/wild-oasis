@@ -7,12 +7,20 @@
 import { RemixBrowser } from '@remix-run/react';
 import { startTransition, StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import ErrorFallback from '../src/ui/ErrorFallback';
 
 startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
-      <RemixBrowser />
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onReset={() => window.location.replace('/')}
+      >
+        <RemixBrowser />
+      </ErrorBoundary>
     </StrictMode>
   );
 });

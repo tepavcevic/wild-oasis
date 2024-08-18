@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 
 import useRecentBookings from './useRecentBookings';
 import useRecentStays from './useRecentStays';

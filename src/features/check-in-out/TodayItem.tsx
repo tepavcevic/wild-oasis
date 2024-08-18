@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { styled } from 'styled-components';
+import { Link } from '@remix-run/react';
 
 import CheckoutButton from './CheckoutButton';
 import Tag from '../../ui/Tag';
@@ -25,7 +25,22 @@ const Guest = styled.div`
   font-weight: 500;
 `;
 
-export default function TodayItem({ activity }) {
+type Activity = {
+  id: number;
+  status: 'unconfirmed' | 'checked-in';
+  guests: {
+    fullName: string;
+    country: string;
+    countryFlag: string;
+  };
+  numOfNights: number;
+};
+
+type TodayItemProps = {
+  activity: Activity;
+};
+
+export default function TodayItem({ activity }: TodayItemProps) {
   const { id, status, guests, numOfNights } = activity;
 
   return (

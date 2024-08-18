@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useParams } from '@remix-run/react';
 
 import { getBooking } from '../../services/apiBookings';
 

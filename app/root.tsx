@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import {
   Links,
   Meta,
@@ -5,9 +6,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
-export function Layout({ children }: { children: React.ReactNode }) {
+import AppLayoutFallback from 'src/ui/AppLayoutFallback';
+
+export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -27,17 +30,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=Sono:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
-        <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
+        <title>Wild Oasis</title>
         <Meta />
         <Links />
         {typeof document === 'undefined' ? '__STYLES__' : null}
       </head>
       <body>
-        <ThemeProvider theme={{ isDarkMode: true }}>
+        <StyledThemeProvider theme={{ isDarkMode: true }}>
           {children}
           <ScrollRestoration />
           <Scripts />
-        </ThemeProvider>
+        </StyledThemeProvider>
       </body>
     </html>
   );
@@ -48,5 +51,5 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return <p>Loading...</p>;
+  return <AppLayoutFallback />;
 }
