@@ -1,6 +1,14 @@
 // Search for: 'jo', 'fa', 'mar', 'emm', 'ah'
 
-export const guests = [
+export type Guest = {
+  fullName: string;
+  email: string;
+  nationality: string;
+  nationalID: string;
+  countryFlag: string;
+};
+
+export const guests: Array<Guest> = [
   {
     // id: 1000,
     fullName: 'Jonas Schmedtmann',

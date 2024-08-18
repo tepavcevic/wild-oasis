@@ -1,12 +1,25 @@
 import { add } from 'date-fns';
 
-function fromToday(numDays, withTime = false) {
+export type Booking = {
+  created_at: string;
+  startDate: string;
+  endDate: string;
+  cabinId: number;
+  guestId: number;
+  hasBreakfast: boolean;
+  observations?: string;
+  isPaid: boolean;
+  numOfGuests: number;
+};
+
+function fromToday(numDays: number, withTime: boolean = false) {
   const date = add(new Date(), { days: numDays });
   if (!withTime) date.setUTCHours(0, 0, 0, 0);
   return date.toISOString().slice(0, -1);
+  1;
 }
 
-export const bookings = [
+export const bookings: Array<Booking> = [
   // CABIN 001
   {
     created_at: fromToday(-20, true),
