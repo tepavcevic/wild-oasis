@@ -20,11 +20,12 @@ import ErrorFallback from '#/ui/ErrorFallback';
 
 const userQuery = {
   queryKey: ['user'],
-  queryFn: getCurrentUser,
+  queryFn: () => getCurrentUser(),
 };
 
 export async function clientLoader() {
-  return await queryClient.ensureQueryData({ ...userQuery });
+  await queryClient.ensureQueryData({ ...userQuery });
+  return null;
 }
 
 export function Layout({ children }: { children: ReactNode }) {

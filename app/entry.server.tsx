@@ -21,6 +21,10 @@ export default function handleRequest(
 
   markup = markup.replace('__STYLES__', styles);
 
+  if (markup.startsWith('<html')) {
+    markup = '<!DOCTYPE html>\n' + markup;
+  }
+
   return new Response(markup, {
     headers: { 'Content-Type': 'text/html' },
     status: responseStatusCode,

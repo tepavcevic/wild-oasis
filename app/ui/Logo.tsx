@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import useTheme from '../../src/hooks/useTheme';
+import useTheme from '#/hooks/useTheme';
 
 const StyledLogo = styled.div`
   text-align: center;

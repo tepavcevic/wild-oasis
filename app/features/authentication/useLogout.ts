@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@remix-run/react';
 import { toast } from 'react-hot-toast';
 
-import { logout as logoutApi } from '../../services/apiAuth';
+import { logout as logoutApi } from '#/services/apiAuth';
 
 export default function useLogout() {
   const navigate = useNavigate();

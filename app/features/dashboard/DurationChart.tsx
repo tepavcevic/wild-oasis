@@ -132,8 +132,6 @@ function prepareData(
     );
   }
 
-  console.log('stays', stays);
-
   const data = stays
     .reduce((arr: ReadonlyArray<Stay>, cur: ConfirmedStay) => {
       const num = cur.numOfNights;

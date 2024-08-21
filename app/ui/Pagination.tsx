@@ -2,7 +2,7 @@ import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 import { useSearchParams } from '@remix-run/react';
 import { styled } from 'styled-components';
 
-import { ROWS_PER_PAGE } from '../constants/index';
+import { ROWS_PER_PAGE } from '#/constants/index';
 
 const StyledPagination = styled.div`
   width: 100%;

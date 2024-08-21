@@ -1,5 +1,6 @@
 import { useSearchParams } from '@remix-run/react';
 import { ChangeEvent } from 'react';
+
 import Select from './Select';
 
 type SortByProps = {

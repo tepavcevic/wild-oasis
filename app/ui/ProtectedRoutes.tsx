@@ -2,7 +2,7 @@ import { useNavigate } from '@remix-run/react';
 import { useEffect, ReactNode } from 'react';
 import { styled } from 'styled-components';
 
-import useUser from '../features/authentication/useUser';
+import useUser from '#/features/authentication/useUser';
 import Spinner from './Spinner';
 
 const FullPage = styled.div`
