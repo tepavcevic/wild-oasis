@@ -5,10 +5,27 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from '@remix-run/react';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
-import AppLayoutFallback from 'src/ui/AppLayoutFallback';
+import AppLayoutFallback from '#/ui/AppLayoutFallback';
+import ThemeProvider from '#/context/ThemeContext';
+import GlobalStyles from '#/styles/GlobalStyles';
+import { queryClient } from '#/query/client';
+import { getCurrentUser } from '#/services/apiAuth';
+import ErrorFallback from '#/ui/ErrorFallback';
+
+const userQuery = {
+  queryKey: ['user'],
+  queryFn: getCurrentUser,
+};
+
+export async function clientLoader() {
+  return await queryClient.ensureQueryData({ ...userQuery });
+}
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -46,10 +63,28 @@ export function Layout({ children }: { children: ReactNode }) {
   );
 }
 
-export default function App() {
+function App() {
   return <Outlet />;
+}
+
+export default function AppWithProviders() {
+  return (
+    <ThemeProvider>
+      <GlobalStyles />
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <App />
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
 }
 
 export function HydrateFallback() {
   return <AppLayoutFallback />;
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  console.error(error);
+  return <ErrorFallback error={error} />;
 }
