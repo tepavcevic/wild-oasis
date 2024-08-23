@@ -5,7 +5,6 @@ import { useMoveBack } from '#/hooks/useMoveBack';
 import { formatCurrency } from '#/utils/helpers';
 import useSettings from '#/features/settings/useSettings';
 import useCheckin from './useCheckin';
-import useBooking from '#/features/bookings/useBooking';
 import BookingDataBox from '#/features/bookings/BookingDataBox';
 import Row from '#/ui/Row';
 import Heading from '#/ui/Heading';
@@ -15,6 +14,7 @@ import ButtonText from '#/ui/ButtonText';
 import Spinner from '#/ui/Spinner';
 import Checkbox from '#/ui/Checkbox';
 import Empty from '#/ui/Empty';
+import { BookingForView } from '#/features/bookings/types';
 
 const Box = styled.div`
   /* Box */
@@ -24,11 +24,16 @@ const Box = styled.div`
   padding: 2.4rem 4rem;
 `;
 
-function CheckinBooking() {
+function CheckinBooking({
+  booking,
+  isLoading,
+}: {
+  booking: BookingForView;
+  isLoading: boolean;
+}) {
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
 
-  const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
   const { checkin, isCheckingIn } = useCheckin();
   const { settings, isLoading: isSettingsLoading } = useSettings();

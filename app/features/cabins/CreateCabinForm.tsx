@@ -125,7 +125,6 @@ function CreateEditCabinForm({
         error={errors?.description?.message}
       >
         <Textarea
-          type="number"
           id="description"
           defaultValue=""
           {...register('description', { required: 'This field is required' })}

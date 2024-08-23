@@ -15,17 +15,12 @@ import AppLayoutFallback from '#/ui/AppLayoutFallback';
 import ThemeProvider from '#/context/ThemeContext';
 import GlobalStyles from '#/styles/GlobalStyles';
 import { queryClient } from '#/query/client';
-import { getCurrentUser } from '#/services/apiAuth';
 import ErrorFallback from '#/ui/ErrorFallback';
-
-const userQuery = {
-  queryKey: ['user'],
-  queryFn: () => getCurrentUser(),
-};
+import { userQuery } from '#/query/options';
 
 export async function clientLoader() {
-  await queryClient.ensureQueryData({ ...userQuery });
-  return null;
+  const user = await queryClient.ensureQueryData({ ...userQuery });
+  return user;
 }
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -87,5 +82,37 @@ export function HydrateFallback() {
 export function ErrorBoundary() {
   const error = useRouteError();
   console.error(error);
-  return <ErrorFallback error={error} />;
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Sono:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+        <title>Wild Oasis</title>
+        <Meta />
+        <Links />
+        {typeof document === 'undefined' ? '__STYLES__' : null}
+      </head>
+      <body>
+        <StyledThemeProvider theme={{ isDarkMode: true }}>
+          <ErrorFallback error={error as Error} />;
+          <ScrollRestoration />
+          <Scripts />
+        </StyledThemeProvider>
+      </body>
+    </html>
+  );
 }

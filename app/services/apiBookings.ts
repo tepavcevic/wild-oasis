@@ -2,7 +2,15 @@ import { ROWS_PER_PAGE } from '../constants';
 import { getToday } from '../utils/helpers';
 import supabase from './supabase';
 
-export async function getBookings({ filter, sortBy, page }) {
+export async function getBookings({
+  filter,
+  sortBy,
+  page,
+}: {
+  filter: { method: string; field: string; value: string | number | boolean };
+  sortBy: { method: string; field: string; direction: string };
+  page: number;
+}) {
   let query = supabase
     .from('bookings')
     .select(
@@ -33,7 +41,7 @@ export async function getBookings({ filter, sortBy, page }) {
   return { data, count };
 }
 
-export async function getBooking(id) {
+export async function getBooking(id: string) {
   const { data, error } = await supabase
     .from('bookings')
     .select('*, cabins(*), guests(*)')
@@ -49,7 +57,7 @@ export async function getBooking(id) {
 }
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
-export async function getBookingsAfterDate(date) {
+export async function getBookingsAfterDate(date: string) {
   const { data, error } = await supabase
     .from('bookings')
     .select('created_at, totalPrice, extrasPrice')
@@ -65,7 +73,7 @@ export async function getBookingsAfterDate(date) {
 }
 
 // Returns all STAYS that are were created after the given date
-export async function getStaysAfterDate(date) {
+export async function getStaysAfterDate(date: string) {
   const { data, error } = await supabase
     .from('bookings')
     // .select('*')
@@ -102,7 +110,10 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function updateBooking(id, obj) {
+export async function updateBooking(
+  id: number,
+  obj: Record<string, Record<string, string | number | boolean>>
+) {
   const { data, error } = await supabase
     .from('bookings')
     .update(obj)
@@ -117,7 +128,7 @@ export async function updateBooking(id, obj) {
   return data;
 }
 
-export async function deleteBooking(id) {
+export async function deleteBooking(id: number) {
   // REMEMBER RLS POLICIES
   const { data, error } = await supabase.from('bookings').delete().eq('id', id);
 

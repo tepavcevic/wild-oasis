@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 import { useNavigate } from '@remix-run/react';
 
 import { useMoveBack } from '../../hooks/useMoveBack';
-import useBooking from './useBooking';
 import BookingDataBox from './BookingDataBox';
 import Row from '../../ui/Row';
 import Heading from '../../ui/Heading';
@@ -16,7 +15,7 @@ import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import useDeleteBooking from './useDeleteBooking';
 import Empty from '../../ui/Empty';
-import { Booking } from './types';
+import { BookingForView } from './types';
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -24,9 +23,14 @@ const HeadingGroup = styled.div`
   align-items: center;
 `;
 
-function BookingDetail() {
-  const { booking, isLoading } = useBooking();
-  const { status, id: bookingId } = (booking || {}) as Booking;
+function BookingDetail({
+  booking,
+  isLoading,
+}: {
+  booking: BookingForView;
+  isLoading: boolean;
+}) {
+  const { status, id: bookingId } = (booking || {}) as BookingForView;
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
@@ -47,7 +51,7 @@ function BookingDetail() {
     <>
       <Row type="horizontal">
         <HeadingGroup>
-          <Heading as="h1">Booking #{bookingId}</Heading>
+          <Heading as="h1">BookingForView #{bookingId}</Heading>
           <Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>

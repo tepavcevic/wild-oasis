@@ -10,7 +10,6 @@ import { styled } from 'styled-components';
 
 import Logo from '#/ui/Logo';
 import Heading from '#/ui/Heading';
-import Form from '#/ui/Form';
 import FormRowVertical from '#/ui/FormRowVertical';
 import Input from '#/ui/Input';
 import Button from '#/ui/Button';
@@ -50,11 +49,9 @@ function Login() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    console.log(Object.fromEntries(formData));
-
     submit(formData, {
       method: 'post',
-      action: '/login', // specify the action where the form should be submitted
+      action: '/login',
     });
   };
 

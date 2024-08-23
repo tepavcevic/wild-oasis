@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { FieldErrorsImpl, type FieldError, Merge } from 'react-hook-form';
 import { styled } from 'styled-components';
 
 const StyledFormRow = styled.div`
@@ -39,16 +40,18 @@ const Error = styled.span`
 
 type FormRowProps = {
   label?: string;
-  error?: string;
-  children: ReactElement;
+  error?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  children: ReactElement | Array<ReactElement>;
 };
 
 export default function FormRow({ label, error, children }: FormRowProps) {
   return (
     <StyledFormRow>
-      {label && <Label htmlFor={children.props.id}>{label}</Label>}
+      {label && (
+        <Label htmlFor={(children as ReactElement).props.id}>{label}</Label>
+      )}
       {children}
-      {error && <Error>{error}</Error>}
+      {error && <Error>{error.toString()}</Error>}
     </StyledFormRow>
   );
 }
