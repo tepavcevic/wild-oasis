@@ -27,6 +27,7 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <Meta />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,7 +45,6 @@ export function Layout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
         <title>Wild Oasis</title>
-        <Meta />
         <Links />
         {typeof document === 'undefined' ? '__STYLES__' : null}
       </head>
@@ -83,36 +83,11 @@ export function ErrorBoundary() {
   const error = useRouteError();
   console.error(error);
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Sono:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
-        <title>Wild Oasis</title>
-        <Meta />
-        <Links />
-        {typeof document === 'undefined' ? '__STYLES__' : null}
-      </head>
-      <body>
-        <StyledThemeProvider theme={{ isDarkMode: true }}>
-          <ErrorFallback error={error as Error} />;
-          <ScrollRestoration />
-          <Scripts />
-        </StyledThemeProvider>
-      </body>
-    </html>
+    <ThemeProvider>
+      <GlobalStyles />
+      <ErrorFallback />
+      <ScrollRestoration />
+      <Scripts />
+    </ThemeProvider>
   );
 }

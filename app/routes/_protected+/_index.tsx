@@ -1,7 +1,6 @@
 import {
   redirect,
   type ClientLoaderFunctionArgs,
-  json,
   useLoaderData,
 } from '@remix-run/react';
 
@@ -24,7 +23,7 @@ export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
 
   if (!booking) throw redirect('/bookings');
 
-  return json(booking);
+  return booking;
 }
 
 export default function Checkin() {

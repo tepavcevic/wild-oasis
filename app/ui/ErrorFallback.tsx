@@ -1,8 +1,13 @@
 import { styled } from 'styled-components';
 
 import Heading from './Heading';
-import GlobalStyles from '#/styles/GlobalStyles';
-import Button from './Button';
+import {
+  ErrorResponse,
+  isRouteErrorResponse,
+  useParams,
+  useRouteError,
+} from '@remix-run/react';
+import { getErrorMessage } from '#/utils/helpers';
 
 const StyledErrorFallback = styled.main`
   height: 100vh;
@@ -34,27 +39,40 @@ const Box = styled.div`
   }
 `;
 
+type StatusHandler = (info: {
+  error: ErrorResponse;
+  params: Record<string, string | undefined>;
+}) => JSX.Element | null;
+
 type ErrorFallbackProps = {
-  error: Error;
-  resetErrorBoundary?: () => void;
+  defaultStatusHandler?: StatusHandler;
+  statusHandlers?: Record<number, StatusHandler>;
+  unexpectedErrorHandler?: (error: unknown) => JSX.Element;
 };
 
 export default function ErrorFallback({
-  error,
-  resetErrorBoundary,
+  defaultStatusHandler = ({ error }) => (
+    <p>
+      {error.status} {error.data}
+    </p>
+  ),
+  statusHandlers,
+  unexpectedErrorHandler = (error) => <p>{getErrorMessage(error)}</p>,
 }: ErrorFallbackProps) {
+  const error = useRouteError();
+  const params = useParams();
+
   return (
-    <>
-      <GlobalStyles />
-      <StyledErrorFallback>
-        <Box>
-          <Heading as="h1">Ooooops! Something went wrong :&apos;(</Heading>
-          <p>{error.message}</p>
-          <Button size="large" onClick={resetErrorBoundary}>
-            Try again
-          </Button>
-        </Box>
-      </StyledErrorFallback>
-    </>
+    <StyledErrorFallback>
+      <Box>
+        <Heading as="h1">Ooooops! Something went wrong :&apos;(</Heading>
+        {isRouteErrorResponse(error)
+          ? (statusHandlers?.[error.status] ?? defaultStatusHandler)({
+              error,
+              params,
+            })
+          : unexpectedErrorHandler(error)}
+      </Box>
+    </StyledErrorFallback>
   );
 }

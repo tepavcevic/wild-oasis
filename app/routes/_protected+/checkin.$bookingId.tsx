@@ -1,15 +1,16 @@
 import {
+  ClientLoaderFunctionArgs,
   redirect,
-  type ClientLoaderFunctionArgs,
   useLoaderData,
 } from '@remix-run/react';
 import { useQuery } from '@tanstack/react-query';
 
-import BookingDetail from '#/features/bookings/BookingDetail';
+import CheckinBooking from '#/features/check-in-out/CheckinBooking';
 import { requireAuthenticatedUser } from '#/services/authGuards';
 import { queryClient } from '#/query/client';
 import { Booking as BookingType } from '#/features/bookings/types';
 import { bookingQuery } from '#/query/options';
+import ErrorFallback from '#/ui/ErrorFallback';
 
 export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
   await requireAuthenticatedUser();
@@ -25,15 +26,23 @@ export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
 
   return booking;
 }
-
-function Booking() {
+export default function Checkin() {
   const initialData = useLoaderData<typeof clientLoader>();
   const { data: booking, isLoading } = useQuery({
     ...bookingQuery(initialData.id.toString()),
     initialData,
   });
-
-  return <BookingDetail booking={booking} isLoading={isLoading} />;
+  return <CheckinBooking booking={booking} isLoading={isLoading} />;
 }
 
-export default Booking;
+export function ErrorBoundary() {
+  return (
+    <ErrorFallback
+      statusHandlers={{
+        404: ({ params }) => (
+          <p>Booking with the id {params.bookingId} not found</p>
+        ),
+      }}
+    />
+  );
+}

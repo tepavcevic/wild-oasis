@@ -27,3 +27,16 @@ export const formatCurrency = (value: number) =>
   new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(
     value
   );
+
+/**
+ * Get the error message from an error object
+ * @param error - The error object
+ * @returns The error message
+ */
+export function getErrorMessage(error: unknown) {
+  if (typeof error === 'string') return error;
+  if (error instanceof Error) return error.message;
+  console.log('Unable to get error message', error);
+
+  return 'An unknown error occurred';
+}
